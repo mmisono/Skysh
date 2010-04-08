@@ -1,0 +1,60 @@
+ターミナルからSkypeします。
+
+必要なもの:
+Skype(の起動)
+Skype4Py  [https://developer.skype.com/wiki/Skype4Py]
+termcolor [http://pypi.python.org/pypi/termcolor/]
+
+使用方法: 
+実行にはSkypeの起動が必要です。
+% ./skysh.py で実行します。基本的に入力はチャットメッセージとして送信されますが、以下の入力は
+コマンドとして処理されます。タブで補完できます。
+
+add <SkypeID>       現在のチャットにユーザーを追加します。
+bookmark            現在のチャットをブックマークします。
+bookmarks           ブックマークの一覧を表示し、指定したチャットに切り替えます。
+chat <SkypeID>      指定したユーザー(複数指定可)とチャットを開始します。
+exit                終了します。
+friends             コンタクトリストのメンバーを表示します。
+kick <SkypeID>      現在のチャットからユーザーを追放します。
+ls                  アクティブチャットの一覧を表示します。
+members             現在のチャットのメンバーを表示します。
+mood [Message]      ムードテキストを表示するか、指定されたメッセージに変更します。
+open                最近のチャットメッセージの中のURLを表示し、指定されたURLを開きます。
+profile <SkypeID>   ユーザーのプロファイルを表示します。
+recent              最近のチャット一覧を表示し、指定したチャットに切り替えます。
+search <username>   ユーザーを検索します。
+status              現在のステータスの表示と変更をします。
+unbookmark          現在のチャットをアンブックマークします。
+
+
+----------------------------------------------------------------------------------------------------
+Skype in Terminal
+
+Require:
+Skype(it must be running)
+Skype4Py  [https://developer.skype.com/wiki/Skype4Py]
+termcolor [http://pypi.python.org/pypi/termcolor/]
+
+Usage:
+%./skysh.py 
+By default,input is send to the current chat. but following command is exception.
+You can complement command using Tab key.
+
+add <SkypeID>       Add user to current chat
+bookmark            Bookmark current chat
+bookmarks           Show List of bookmarks and change current chat
+chat <SkypeID>      Begin chat with <SkypeID>
+exit                exit 
+friends             Show friends
+kick <SkypeID>      Kick user from current chat
+ls                  Show list of active chats
+members             Show members of current chat and show status
+mood [Message]      Change mood message or show current mood message
+open                Show lists of recent url which is in message and open url
+profile <SkypeID>   Show profile
+recent              Show lists of recent chat and change current chat
+search <username>   Search user
+status              Show current status and change 
+unbookmark          Unbookmark current chat
+
