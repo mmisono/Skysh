@@ -7,6 +7,7 @@ import webbrowser
 import sys
 import os
 import cmd
+import commands
 import re
 import readline
 import threading
@@ -285,15 +286,15 @@ class Skysh(cmd.Cmd):
 
 
   def printMessage(self,mes):
-    print '\r'+' '*100 + '\r', #Clear current line
+    print '\r' * int(commands.getoutput('echo $COLUMNS')), #Clear current line
     color = self.selectColor(mes.Chat,mes.FromHandle)
     self.getURL(mes.Body)
     if self.chat == mes.Chat:
-      print '(' + mes.Chat.FriendlyName + ') ' + colored(  mes.FromDisplayName + ': '  +  mes.Body ,color)
+      print '\r(' + mes.Chat.FriendlyName + ') ' + colored(  mes.FromDisplayName + ': '  +  mes.Body ,color)
     else:
-      print colored('(' + mes.Chat.FriendlyName + ') ' + mes.FromDisplayName + ': ' +  mes.Body ,color)
+      print colored('\r(' + mes.Chat.FriendlyName + ') ' + mes.FromDisplayName + ': ' +  mes.Body ,color)
     if self.chat:
-      print '(' + self.chat.FriendlyName.encode('utf-8') + ')',
+      print '\r(' + self.chat.FriendlyName.encode('utf-8') + ')',
     print self.skype.CurrentUserProfile.FullName.encode('utf-8') +  ': ' + readline.get_line_buffer(),
     sys.stdout.flush()
   
