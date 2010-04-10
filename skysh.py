@@ -38,6 +38,7 @@ class Skysh(cmd.Cmd):
     chat <SkypeID> \t\t Begin chat with <SkypeID>
     exit \t\t\t exit 
     friends \t\t\t Show friends
+    help \t\t\t Show this message
     kick <SkypeID> \t\t Kick user from current chat
     ls \t\t\t\t Show list of active chats
     members \t\t\t Show members of current chat and show status

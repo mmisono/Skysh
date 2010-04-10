@@ -16,6 +16,7 @@ bookmarks           ブックマークの一覧を表示し、指定したチャ
 chat <SkypeID>      指定したユーザー(複数指定可)とチャットを開始します。
 exit                終了します。
 friends             コンタクトリストのメンバーを表示します。
+help                このメッセージを表示します。
 kick <SkypeID>      現在のチャットからユーザーを追放します。
 ls                  アクティブチャットの一覧を表示します。
 members             現在のチャットのメンバーを表示します。
@@ -47,6 +48,7 @@ bookmarks           Show List of bookmarks and change current chat
 chat <SkypeID>      Begin chat with <SkypeID>
 exit                exit 
 friends             Show friends
+help                Show this message
 kick <SkypeID>      Kick user from current chat
 ls                  Show list of active chats
 members             Show members of current chat and show status
