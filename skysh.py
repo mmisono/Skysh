@@ -22,6 +22,8 @@ class Skysh(cmd.Cmd):
     if not self.skype.Client.IsRunning:
       print 'Starting Skype...'
       self.skype.Client.Start()
+      while not self.skype.Client.IsRunning:
+        pass
     self.skype.OnMessageStatus = self.OnMessageStatus
     self.skype.OnAsyncSearchUsersFinished = self.OnAsyncSearchUsersFinished
     self.skype.Attach()
