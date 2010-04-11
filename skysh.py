@@ -84,6 +84,8 @@ class Skysh(cmd.Cmd):
     if not self.chat:
       self.error("Please chat someone")
     else:
+      if line[0] == '\\':
+        line = line[1:]
       self.chat.SendMessage( line.decode('utf-8') )
 
 
