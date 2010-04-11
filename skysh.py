@@ -51,6 +51,7 @@ class Skysh(cmd.Cmd):
     self.skype.OnMessageStatus = self.OnMessageStatus
     self.skype.OnAsyncSearchUsersFinished = self.OnAsyncSearchUsersFinished
     self.skype.Attach()
+    self.columns = int(commands.getoutput('echo $COLUMNS'))
     self.urllist = []
     self.chat = ''
 
@@ -153,17 +154,32 @@ class Skysh(cmd.Cmd):
 
   #Show list of active Chat
   def do_ls(self,arg):
-    chat = self.skype.ActiveChats
     try:
-      for i in xrange(chat.Count):
-        print "%2d: %s" % (i,chat.Item(i).FriendlyName)
+      if self.skype.ActiveChats.Count == 0: # This case throw exception
+        return
     except Skype4Py.errors.SkypeError:
-      pass
+      return
 
-    if chat.Count > 0:
-      num = self.select(chat.Count)
-      if num >= 0:
-        self.chat = self.skype.ActiveChats(num)
+    #ActiveChats[0].Name contains all active chat name  ...why?
+    chats = self.skype.ActiveChats[0].Name.split(' ')
+    cnt = -1 
+    for chat in chats:
+      try:
+        cnt += 1
+        print "%2d:" % cnt,
+#        print "%s" % self.skype.Chat(chat).FriendlyName
+        print "%s" % Skype4Py.chat.Chat(self.skype,chat).FriendlyName
+      except Skype4Py.errors.SkypeError:
+        self.error("Can't get chat name")
+
+    num = self.select(len(chats))
+    if num >= 0:
+      try:
+#        self.chat = self.skype.Chat(chats[num])
+        self.chat = Skype4Py.chat.Chat(self.skype,chats[num])
+      except Skype4Py.errors.SkypeError:
+        self.error("Can't change current chat")
+
 
   #Print Current Chat Member
   def do_members(self,ignore):
@@ -309,7 +325,7 @@ class Skysh(cmd.Cmd):
 
 
   def printMessage(self,mes):
-    print '\r' * int(commands.getoutput('echo $COLUMNS')), #Clear current line
+    print '\r' + ' ' * (self.columns) + '\r', #Clear current line
     color = self.selectColor(mes.Chat,mes.FromHandle)
     self.getURL(mes.Body)
     if self.chat == mes.Chat:
