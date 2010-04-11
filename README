@@ -1,4 +1,7 @@
-ターミナルからSkypeします。
+Author: mfumi <m.fumi760@gmail.com>
+version: 0.0.2
+
+Skysh: ターミナルからSkypeします。
 
 必要なもの:
 Skype(の起動)
@@ -30,7 +33,7 @@ unbookmark          現在のチャットをアンブックマークします。
 
 
 ----------------------------------------------------------------------------------------------------
-Skype in Terminal
+Skysh: Skype in Terminal
 
 Require:
 Skype(it must be running)
