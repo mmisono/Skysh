@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #Author: mfumi <m.fumi760@gmail.com>
-#Version: 0.0.2
+#Version: 0.0.3
 #License: NEW BSD LICENSE
 #  Copyright (c) 2010, mfumi
 #  All rights reserved.
@@ -40,7 +40,7 @@ class Skysh(cmd.Cmd):
 
   def __init__(self):
     cmd.Cmd.__init__(self)
-    self.intro  = "Skysh version 0.0.2"
+    self.intro  = "Skysh version 0.0.3"
     self.prompt = Prompt()
     self.skype = Skype4Py.Skype()
     if not self.skype.Client.IsRunning:
