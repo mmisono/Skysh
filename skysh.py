@@ -187,7 +187,7 @@ class Skysh(cmd.Cmd):
       cnt = 0
       for i in xrange(self.chat.Members.Count):
         user = self.chat.Members.Item(i)
-        print "%2d: %s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
+        print "\r%2d: %s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
         cnt += 1
 
 
@@ -205,7 +205,7 @@ class Skysh(cmd.Cmd):
     if len(self.urllist) == 0:
       return
     for url in self.urllist:
-      print "%2d: %s" % (cnt,url)
+      print "\r%2d: %s" % (cnt,url)
       cnt += 1
 
     if cnt > 0:
@@ -217,28 +217,28 @@ class Skysh(cmd.Cmd):
   #Show user profile
   def do_profile(self,username):
     user = self.skype.User(username)
-    print "%11s: %s" % ('FullName',user.FullName      )
-    print "%11s: %s" % ('Handle',user.Handle          )
-    print "%11s: %s" % ('DisplayName',user.DisplayName)
-    print "%11s: %s" % ('MoodText',user.MoodText      )
-    print "%11s: %s" % ('About',user.About            )
-    print "%11s: %s" % ('Language',user.Language      )
-    print "%11s: %s" % ('Birthday',user.Birthday      )
-    print "%11s: %s" % ('Country',user.Country        )
-    print "%11s: %s" % ('City',user.City              )
-    print "%11s: %s" % ('Province',user.Province      )
-    print "%11s: %s" % ('PhoneHome',user.PhoneHome    )
-    print "%11s: %s" % ('PhoneMobile',user.PhoneMobile)
-    print "%11s: %s" % ('PhoneOffice',user.PhoneOffice)
-    print "%11s: %s" % ('Homepage',user.Homepage      )
-    print "%11s: %s" % ('Sex',user.Sex                )
+    print "\r%11s: %s" % ('FullName',user.FullName      )
+    print "\r%11s: %s" % ('Handle',user.Handle          )
+    print "\r%11s: %s" % ('DisplayName',user.DisplayName)
+    print "\r%11s: %s" % ('MoodText',user.MoodText      )
+    print "\r%11s: %s" % ('About',user.About            )
+    print "\r%11s: %s" % ('Language',user.Language      )
+    print "\r%11s: %s" % ('Birthday',user.Birthday      )
+    print "\r%11s: %s" % ('Country',user.Country        )
+    print "\r%11s: %s" % ('City',user.City              )
+    print "\r%11s: %s" % ('Province',user.Province      )
+    print "\r%11s: %s" % ('PhoneHome',user.PhoneHome    )
+    print "\r%11s: %s" % ('PhoneMobile',user.PhoneMobile)
+    print "\r%11s: %s" % ('PhoneOffice',user.PhoneOffice)
+    print "\r%11s: %s" % ('Homepage',user.Homepage      )
+    print "\r%11s: %s" % ('Sex',user.Sex                )
 
 
   #Show list of recent chat and change
   def do_recent(self,ignore):
     chats = self.skype.RecentChats
     for i in xrange(chats.Count):
-      print "%2d: %s" % (i,chats.Item(i).FriendlyName)
+      print "\r%2d: %s" % (i,chats.Item(i).FriendlyName)
       
     if chats.Count > 0:
       num = self.select(chats.Count)
@@ -254,9 +254,9 @@ class Skysh(cmd.Cmd):
   def do_status(self,ignore):
     status = ['ONLINE','SKYPEME','AWAY','NA','DND','INVISIBLE','OFFLINE']
     status_ja = ['オンライン','SkypeMe!','一時退席中','退席中','取り込み中','ログイン状態を隠す','オフライン']
-    print 'Now status: ' + self.skype.CurrentUserStatus
+    print '\rNow status: ' + self.skype.CurrentUserStatus
     for i in xrange(len(status)):
-      print "%2d: %s(%s)" % (i,status[i],status_ja[i])
+      print "\r%2d: %s(%s)" % (i,status[i],status_ja[i])
 
     if i > 0:
       num = self.select(len(status))
@@ -280,12 +280,12 @@ class Skysh(cmd.Cmd):
 
   def OnAsyncSearchUsersFinished(self,cookie,users):
     cnt = 0
-    print '\r' + ' ' * 100 + '\r',
+    print '\r' + ' ' * (self.columns) + '\r', #Clear current line
     for user in users:
-      print "%2d:%s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
+      print "\r%2d:%s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
       cnt += 1
     if self.chat:
-      print '(' + skype.chat.FriendlyName.encode('utf-8') + ')',
+      print '\r(' + skype.chat.FriendlyName.encode('utf-8') + ')',
     print self.skype.CurrentUserProfile.FullName +  ':',readline.get_line_buffer(),
     sys.stdout.flush()
   
