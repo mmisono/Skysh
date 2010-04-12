@@ -290,6 +290,19 @@ class Skysh(cmd.Cmd):
       print '\r(' + skype.chat.FriendlyName.encode('utf-8') + ')',
     print self.skype.CurrentUserProfile.FullName +  ':',readline.get_line_buffer(),
     sys.stdout.flush()
+
+  def OnChatMembersChanged(self,chat,mambers):
+    cnt = 0
+    print '\r' + ' ' * (self.columns) + '\r', #Clear current line
+    for member in members:
+      print "\r%2d:%s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
+      cnt += 1
+    if self.chat:
+      print '\r(' + skype.chat.FriendlyName.encode('utf-8') + ')',
+    print self.skype.CurrentUserProfile.FullName +  ':',readline.get_line_buffer(),
+    sys.stdout.flush()
+
+
   
 
   #Print Error Message
@@ -342,15 +355,13 @@ class Skysh(cmd.Cmd):
   
   #if url is found,append list
   def getURL(self,mes):
-    urlpattern = [re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), 
-                  re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]")
-                  ]
 
-    for p in urlpattern:
-      urls = p.findall(mes)
-      if urls:
-        for url in urls:
-          self.appendURL(url[0])
+    urlpattern = re.compile("(([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*)")
+
+    urls = urlpattern.findall(mes)
+    if urls:
+      for url in urls:
+        self.appendURL(url[0])
 
 
 
