@@ -356,7 +356,26 @@ class Skysh(cmd.Cmd):
   #if url is found,append list
   def getURL(self,mes):
 
-    urlpattern = re.compile("(([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*)")
+    urlpattern = re.compile(r"""
+    (
+      (
+        (
+          [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}|   #IPAdress
+          (
+            (
+              ((news|telnet|nttp|file|http|ftp|https)://)|  #Scheme
+              (www|ftp)[-A-Za-z0-9]*\.                      #HostName 
+            )
+            ([-A-Za-z0-9\.]+)                               #HostName 
+          )
+        )
+        (:[0-9]*)?                                          #Port
+      )
+        (
+          /[-A-Za-z0-9_\$\.\+\!\*\(\),;:@&=\?/~\#\%]*|      #Path
+        )   
+    )
+    """,re.VERBOSE)
 
     urls = urlpattern.findall(mes)
     if urls:
