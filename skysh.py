@@ -51,7 +51,6 @@ class Skysh(cmd.Cmd):
     self.skype.OnMessageStatus = self.OnMessageStatus
     self.skype.OnAsyncSearchUsersFinished = self.OnAsyncSearchUsersFinished
     self.skype.Attach()
-    self.columns = int(commands.getoutput('echo $COLUMNS'))
     self.urllist = []
     self.chat = ''
 
@@ -115,7 +114,7 @@ class Skysh(cmd.Cmd):
   def do_bookmarks(self,ignore):
     bookmarks = self.skype.BookmarkedChats
     for i in xrange(bookmarks.Count):
-      print "%2d: %s" % (i,bookmarks.Item(i).FriendlyName)
+      print "\r%2d: %s" % (i,bookmarks.Item(i).FriendlyName)
 
     if bookmarks.Count > 0:
       num = self.select(bookmarks.Count)
@@ -142,7 +141,7 @@ class Skysh(cmd.Cmd):
   def do_friends(self,ignore):
     cnt = 0
     for user in self.skype.Friends:
-      print "%2d: %s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
+      print "\r%2d: %s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
       cnt += 1
 
 
@@ -282,7 +281,7 @@ class Skysh(cmd.Cmd):
 
   def OnAsyncSearchUsersFinished(self,cookie,users):
     cnt = 0
-    print '\r' + ' ' * (self.columns) + '\r', #Clear current line
+    print "\x1b[2K",  #Clear current line
     for user in users:
       print "\r%2d:%s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
       cnt += 1
@@ -293,7 +292,7 @@ class Skysh(cmd.Cmd):
 
   def OnChatMembersChanged(self,chat,mambers):
     cnt = 0
-    print '\r' + ' ' * (self.columns) + '\r', #Clear current line
+    print "\x1b[2K",  #Clear current line
     for member in members:
       print "\r%2d:%s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
       cnt += 1
@@ -340,7 +339,7 @@ class Skysh(cmd.Cmd):
 
 
   def printMessage(self,mes):
-    print '\r' + ' ' * (self.columns) + '\r', #Clear current line
+    print "\x1b[2K",  #Clear current line
     color = self.selectColor(mes.Chat,mes.FromHandle)
     self.getURL(mes.Body)
     if self.chat == mes.Chat:
