@@ -143,7 +143,7 @@ class Skysh(cmd.Cmd):
     i = 0
     files = self.skype.FileTransfers
     while i < files.Count and i < 5:
-      print "\r%s: %s\t\tfrom %s" % (files[i].FinishDatetime.isoformat(),files[i].FilePath,files[i].PartnerDisplayName)
+      print "\r%s: %s\t\tfrom %s" % (files[i].FinishDatetime.strftime("%Y-%m-%d %H:%M:%S"),files[i].FilePath,files[i].PartnerDisplayName)
       i += 1
 
 
