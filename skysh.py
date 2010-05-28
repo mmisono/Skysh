@@ -351,25 +351,25 @@ class Skysh(cmd.Cmd):
 
     if status==Skype4Py.fileTransferStatusFailed:
       if file.Type == Skype4Py.fileTransferTypeIncoming:
-        error("Receiving file %s from %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf-8')))
+        self.error("Receiving file %s from %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf-8')))
       if file.Type == Skype4Py.fileTransferTypeOutgoing:
-        error("Sending file %s to %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf-8')))
+        self.error("Sending file %s to %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf-8')))
       if file.FailureReason == Skype4Py.fileTransferFailureReasonSenderNotAuthorized:
-        error("Sender not authorized.")
+        self.error("Sender not authorized.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonRemotelyCancelled:
-        error("Remotely cancelled.")
+        self.error("Remotely cancelled.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonFailedRead:
-        error("Failed read.")
+        self.error("Failed read.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonFailedRemoteRead:
-        error("Failed remote read.")
+        self.error("Failed remote read.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonFailedWrite:
-        error("Failed write.")
+        self.error("Failed write.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonFailedRemoteWrite:
-        error("Failed remote write.")
+        self.error("Failed remote write.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonRemoteDoesNotSupportFT:
-        error("Remote does not support file transfer.")
+        self.error("Remote does not support file transfer.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonRemoteOfflineTooLong:
-        error("Remote offline too long.")
+        self.error("Remote offline too long.")
     self.printPrompt()
     print readline.get_line_buffer(),
     sys.stdout.flush()
