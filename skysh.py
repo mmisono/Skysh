@@ -70,6 +70,7 @@ class Skysh(cmd.Cmd):
     kick <SkypeID> \t\t Kick user from current chat
     ls \t\t\t\t Show list of active chats
     members \t\t\t Show members of current chat and show status
+    messages \t\t\t Show recent messages of current chat
     mood [Message] \t\t Change mood message or show current mood message
     open \t\t\t Show lists of recent url which is in message and open url
     profile <SkypeID> \t\t\t Show profile
@@ -213,6 +214,13 @@ class Skysh(cmd.Cmd):
         user = self.chat.Members.Item(i)
         print "\r%2d: %s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
         cnt += 1
+
+
+  #Show recent messages of current chat
+  def do_messages(self,ignore):
+    messages = self.chat.RecentMessages
+    for message in messages:
+      self.printMessage(message)
 
 
   #Show or Chanege mood text:

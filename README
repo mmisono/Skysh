@@ -24,6 +24,7 @@ help                このメッセージを表示します。
 kick <SkypeID>      現在のチャットからユーザーを追放します。
 ls                  アクティブチャットの一覧を表示します。
 members             現在のチャットのメンバーを表示します。
+messages            現在のチャットの最近のメッセージを表示します。
 mood [Message]      ムードテキストを表示するか、指定されたメッセージに変更します。
 open                最近のチャットメッセージの中のURLを表示し、指定されたURLを開きます。
 profile <SkypeID>   ユーザーのプロファイルを表示します。
@@ -57,6 +58,7 @@ help                Show this message
 kick <SkypeID>      Kick user from current chat
 ls                  Show list of active chats
 members             Show members of current chat and show status
+messages            Show recent messages of current chat
 mood [Message]      Change mood message or show current mood message
 open                Show lists of recent url which is in message and open url
 profile <SkypeID>   Show profile
