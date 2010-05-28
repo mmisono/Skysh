@@ -18,6 +18,7 @@ bookmark            現在のチャットをブックマークします。
 bookmarks           ブックマークの一覧を表示し、指定したチャットに切り替えます。
 chat <SkypeID>      指定したユーザー(複数指定可)とチャットを開始します。
 exit                終了します。
+file                最近受信したファイルの一覧を表示し、指定されたファイルを開きます。
 friends             コンタクトリストのメンバーを表示します。
 help                このメッセージを表示します。
 kick <SkypeID>      現在のチャットからユーザーを追放します。
@@ -51,6 +52,7 @@ bookmarks           Show List of bookmarks and change current chat
 chat <SkypeID>      Begin chat with <SkypeID>
 exit                exit 
 friends             Show friends
+file                Show recent recieved files
 help                Show this message
 kick <SkypeID>      Kick user from current chat
 ls                  Show list of active chats
