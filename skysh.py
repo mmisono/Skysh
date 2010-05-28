@@ -64,6 +64,7 @@ class Skysh(cmd.Cmd):
     chat <SkypeID> \t\t Begin chat with <SkypeID>
     exit \t\t\t exit 
     friends \t\t\t Show friends
+    file \t\t\t Show recent recieved files
     help \t\t\t Show this message
     kick <SkypeID> \t\t Kick user from current chat
     ls \t\t\t\t Show list of active chats
@@ -135,6 +136,15 @@ class Skysh(cmd.Cmd):
   def do_EOF(self,ignore):
     print '\n',
     sys.exit(1)
+
+
+  #Show Recent recieved files
+  def do_file(self,ignore):
+    i = 0
+    files = self.skype.FileTransfers
+    while i < files.Count and i < 5:
+      print "\r%s: %s\t\tfrom %s" % (files[i].FinishDatetime.isoformat(),files[i].FilePath,files[i].PartnerDisplayName)
+      i += 1
 
 
   #Show friends
