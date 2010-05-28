@@ -142,18 +142,22 @@ class Skysh(cmd.Cmd):
   #Show Recent recieved files
   def do_file(self,ignore):
     i = 0
+    cnt = 0
+    fileno = []
     files = self.skype.FileTransfers
-    while i < files.Count and i < 5:
-      print "\r%2d %s: %s\t\tfrom %s" % (i,files[i].FinishDatetime.strftime("%Y-%m-%d %H:%M:%S"),files[i].FilePath.decode('utf_8'),files[i].PartnerDisplayName)
+    while i < files.Count and cnt < 5:
+      if files[i].Type == Skype4Py.fileTransferTypeIncoming:
+        print "\r%2d %s: %s\t\tfrom %s" % (cnt,files[i].FinishDatetime.strftime("%Y-%m-%d %H:%M:%S"),files[i].FilePath.decode('utf_8'),files[i].PartnerDisplayName)
+        fileno.append(i)
+        cnt += 1
       i += 1
-    max = files.Count if  files.Count < 5 else  5
     if sys.platform == 'darwin' or sys.platform == 'win32':
-      num = self.select(max)
+      num = self.select(cnt)
       if num >= 0:
         if sys.platform == 'win32' :
-          os.startfile(files[num].FilePath)
+          os.startfile(files[fileno[num]].FilePath)
         else :
-          os.system("open %s" % files[num].FilePath)
+          os.system("open %s" % files[fileno[num]].FilePath)
 
 
   #Show friends
