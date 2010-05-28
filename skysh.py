@@ -143,8 +143,16 @@ class Skysh(cmd.Cmd):
     i = 0
     files = self.skype.FileTransfers
     while i < files.Count and i < 5:
-      print "\r%s: %s\t\tfrom %s" % (files[i].FinishDatetime.strftime("%Y-%m-%d %H:%M:%S"),files[i].FilePath,files[i].PartnerDisplayName)
+      print "\r%2d %s: %s\t\tfrom %s" % (i,files[i].FinishDatetime.strftime("%Y-%m-%d %H:%M:%S"),files[i].FilePath,files[i].PartnerDisplayName)
       i += 1
+    max = files.Count if  files.Count < 5 else  5
+    if sys.platform == 'darwin' or sys.platform == 'win32':
+      num = self.select(max)
+      if num >= 0:
+        if sys.platform == 'win32' :
+          os.startfile(files[num].FilePath)
+        else :
+          os.system("open %s" % files[num].FilePath)
 
 
   #Show friends
