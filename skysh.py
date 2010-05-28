@@ -30,7 +30,6 @@ import webbrowser
 import sys
 import os
 import cmd
-import commands
 import re
 import readline
 import threading
@@ -48,11 +47,11 @@ class Skysh(cmd.Cmd):
       self.skype.Client.Start()
       while not self.skype.Client.IsRunning:
         pass
+    self.skype.Attach()
     self.skype.OnMessageStatus = self.OnMessageStatus
     self.skype.OnAsyncSearchUsersFinished = self.OnAsyncSearchUsersFinished
     self.skype.OnChatMembersChanged = self.OnChatMembersChanged
     self.skype.OnFileTransferStatusChanged = self.OnFileTransferStatusChanged
-    self.skype.Attach()
     self.urllist = []
     self.chat = ''
 
@@ -305,9 +304,8 @@ class Skysh(cmd.Cmd):
     for user in users:
       print "\r%2d:%s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
       cnt += 1
-    if self.chat:
-      print '\r(' + skype.chat.FriendlyName.encode('utf-8') + ')',
-    print self.skype.CurrentUserProfile.FullName +  ':',readline.get_line_buffer(),
+    self.printPrompt()
+    print readline.get_line_buffer(),
     sys.stdout.flush()
 
   def OnChatMembersChanged(self,chat,mambers):
@@ -316,62 +314,42 @@ class Skysh(cmd.Cmd):
     for member in members:
       print "\r%2d:%s (%s)\t%s\t%s" % (cnt,user.FullName,user.Handle,user.OnlineStatus,user.MoodText)
       cnt += 1
-    if self.chat:
-      print '\r(' + skype.chat.FriendlyName.encode('utf-8') + ')',
-    print self.skype.CurrentUserProfile.FullName +  ':',readline.get_line_buffer(),
+    self.printPrompt()
+    print readline.get_line_buffer(),
     sys.stdout.flush()
 
 
   def OnFileTransferStatusChanged(self,file, status):
+    self.printPrompt()
     if status==Skype4Py.fileTransferStatusPaused:
-      self.printPrompt()
       if file.Type == Skype4Py.fileTransferTypeIncoming:
         print colored("Receiving file %s from %s paused.",'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
       if file.Type == Skype4Py.fileTransferTypeOutgoing:
         print colored("Sending file %s to %s paused.",'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
-      self.printPrompt()
-      print readline.get_line_buffer(),
-      sys.stdout.flush()
 
     if status==Skype4Py.fileTransferStatusRemotelyPaused:
-      self.printPrompt()
       if file.Type == Skype4Py.fileTransferTypeIncoming:
         print colored("Receiving file %s from %s paused remotely.",'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
       if file.Type == Skype4Py.fileTransferTypeOutgoing:
         print colored("Sending file %s to %s paused remotely.",'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
-      self.printPrompt()
-      print readline.get_line_buffer(),
-      sys.stdout.flush()
-
 
     if status==Skype4Py.fileTransferStatusCancelled:
-      self.printPrompt()
       if file.Type == Skype4Py.fileTransferTypeIncoming:
         print colored("Receiving file %s from %s canceled.",'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
       if file.Type == Skype4Py.fileTransferTypeOutgoing:
         print colored("Sending file %s to %s canceled.",'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
-      self.printPrompt()
-      print readline.get_line_buffer(),
-      sys.stdout.flush()
-
 
     if status==Skype4Py.fileTransferStatusCompleted:
-      self.printPrompt()
       if file.Type == Skype4Py.fileTransferTypeIncoming:
         print colored("Receiving file %s from %s completed." ,'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
       if file.Type == Skype4Py.fileTransferTypeOutgoing:
         print colored("Sending file %s to %s completed.",'green') %(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf_8'))
-      self.printPrompt()
-      print readline.get_line_buffer(),
-      sys.stdout.flush()
-
 
     if status==Skype4Py.fileTransferStatusFailed:
-      self.printPrompt()
       if file.Type == Skype4Py.fileTransferTypeIncoming:
-        error("Receiving file %s from %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName))
+        error("Receiving file %s from %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf-8')))
       if file.Type == Skype4Py.fileTransferTypeOutgoing:
-        error("Sending file %s to %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName))
+        error("Sending file %s to %s failed."%(file.FileName.decode('utf_8'), file.PartnerDisplayName.decode('utf-8')))
       if file.FailureReason == Skype4Py.fileTransferFailureReasonSenderNotAuthorized:
         error("Sender not authorized.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonRemotelyCancelled:
@@ -388,9 +366,9 @@ class Skysh(cmd.Cmd):
         error("Remote does not support file transfer.")
       if file.FailureReason == Skype4Py.fileTransferFailureReasonRemoteOfflineTooLong:
         error("Remote offline too long.")
-      self.printPrompt()
-      print readline.get_line_buffer(),
-      sys.stdout.flush()
+    self.printPrompt()
+    print readline.get_line_buffer(),
+    sys.stdout.flush()
 
   def printPrompt(self):
     print "\x1b[2K",  #Clear current line
